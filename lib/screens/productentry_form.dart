@@ -12,6 +12,8 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
   String _product = "";
 	String _description = "";
 	int _price = 0;
+  String _category = "";
+  int _stock = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +55,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                   },
                 ),
               ),
-                            Padding(
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
@@ -102,7 +104,55 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                   },
                 ),
               ),
-              // Tambahkan tombol di sini
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Category",
+                    labelText: "Category",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _category = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Category tidak boleh kosong!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Stock",
+                    labelText: "Stock",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _stock = int.tryParse(value!) ?? 0;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Stock tidak boleh kosong!";
+                    }
+                    if (int.tryParse(value) == null) {
+                      return "Stock harus berupa angka!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -125,7 +175,9 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                                   children: [
                                     Text('Product: $_product'),
                                     Text('Description: $_description') ,
-                                    Text('Price: $_price')                                 ],
+                                    Text('Price: $_price'),
+                                    Text('Kategory: $_category'), 
+                                    Text('Stock: $_stock')                                       ],
                                 ),
                               ),
                               actions: [

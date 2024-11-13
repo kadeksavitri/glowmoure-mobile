@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:glowmoure_mobile/screens/menu.dart';
 import 'package:glowmoure_mobile/screens/productentry_form.dart';
 
-
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
@@ -18,7 +17,7 @@ class LeftDrawer extends StatelessWidget {
                 child: const Column(
                   children: [
                     Text(
-                      'Mental Health Tracker',
+                      'Glowmoure',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 24,
@@ -52,14 +51,13 @@ class LeftDrawer extends StatelessWidget {
                 },
               ),
             ListTile(
-              leading: const Icon(Icons.mood),
-              title: const Text('Tambah Mood'),
-              // Bagian redirection ke MoodEntryFormPage
+              leading: const Icon(Icons.shop),
+              title: const Text('Tambah Product'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MoodEntryFormPage(),
+                    builder: (context) => const ProductEntryFormPage(),
                   ),
                 );
               },
