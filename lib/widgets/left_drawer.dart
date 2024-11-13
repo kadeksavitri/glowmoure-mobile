@@ -27,7 +27,7 @@ class LeftDrawer extends StatelessWidget {
                     ),
                     Padding(padding: EdgeInsets.all(8)),
                     Text(
-                      "Ayo jaga kesehatan mentalmu setiap hari disini!",
+                      "Aesthetic Scanted Candle and Nightlight",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                       fontSize: 15,
