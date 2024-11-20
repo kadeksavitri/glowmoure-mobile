@@ -36,6 +36,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
+    resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Center(
           child: Text(
@@ -45,7 +46,8 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
-      body: Form(
+      body: SafeArea(
+      child : Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
@@ -257,6 +259,7 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
           ),
         ),
       ),
+    )
     );
   }
 }
