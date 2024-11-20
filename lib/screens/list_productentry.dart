@@ -3,6 +3,7 @@ import 'package:glowmoure_mobile/models/product_entry.dart';
 import 'package:glowmoure_mobile/widgets/left_drawer.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:glowmoure_mobile/screens/producdetail.dart';
 
 class ProductEntryPage extends StatefulWidget {
   const ProductEntryPage({super.key});
@@ -14,7 +15,7 @@ class ProductEntryPage extends StatefulWidget {
 class _ProductEntryPageState extends State<ProductEntryPage> {
   Future<List<ProductDetail>> fetchProduct(CookieRequest request) async {
     // : Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-    final response = await request.get('http://localhost:8000/json/');
+    final response = await request.get('http://127.0.0.1:8000/json/');
     
     // Melakukan decode response menjadi bentuk json
     var data = response;
@@ -56,34 +57,47 @@ class _ProductEntryPageState extends State<ProductEntryPage> {
             } else {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (_, index) => Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${snapshot.data![index].fields.name}",
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                itemBuilder: (_, index) {
+                  final product = snapshot.data![index];
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailPage(product: product),
                         ),
+                      );
+                    },
+                    child: Container(
+                      margin:
+                          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${snapshot.data![index].name}",
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text("${snapshot.data![index].price}"),
+                          const SizedBox(height: 10),
+                          Text("${snapshot.data![index].description}"),
+                          const SizedBox(height: 10),
+                          Text("${snapshot.data![index].category}"),
+                          const SizedBox(height: 10),
+                          Text("${snapshot.data![index].stock}")
+                          // const SizedBox(height: 10),
+                          // Text("${snapshot.data![index].imageUrl}")
+                        ],
                       ),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.price}"),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.description}"),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.category}"),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.stock}")
-                      // const SizedBox(height: 10),
-                      // Text("${snapshot.data![index].fields.imageUrl}")
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
             }
           }
