@@ -96,3 +96,81 @@ Saya meimplementasi tema pada aplikasi dengan penggunaan Theme.of(context) untuk
 5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
 Jawab: 
 Saya menangani navigasi yang banyak halaman menggunakan Navigator dengan push, pop, dan pushReplacement yang digunakan untuk perpindahan halaman dan menangani perubahan state. Drawer (menyediakan navigasi dari samping) dan Bottom Navigation untuk berpindah halaman utama tanpa menumpuk halaman di atas stack. 
+
+Tugas 9 =================
+
+1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+Jawab: 
+Mapping Data JSON ke Objek Dart: Model mempermudah konversi antara JSON dan objek Dart, sehingga pengelolaan data lebih aman dan terstruktur.
+Validasi dan Pemrosesan Data: Model memastikan data sesuai dengan format yang diharapkan. Jika kita langsung mengelola JSON tanpa model, kemungkinan terjadi kesalahan format data meningkat.
+Keterbacaan Kode: Dengan model, kode lebih mudah dibaca karena memiliki representasi yang jelas dari data yang digunakan.
+Jika tidak membuat model, kita masih bisa mengolah JSON menggunakan map atau list. Namun, kode menjadi lebih rawan kesalahan dan sulit dipahami.
+
+2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini.
+Jawab: 
+
+GET: Mengambil data dari server.
+POST: Mengirim data ke server.
+PUT/DELETE: Memperbarui atau menghapus data di server.
+Dalam tugas ini, http digunakan untuk berinteraksi dengan API Django, baik untuk mendapatkan data (fetch) maupun mengirim data (authentikasi atau pembuatan entri).
+
+
+
+3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+Jawab: 
+CookieRequest digunakan untuk mengelola cookie dalam permintaan HTTP di aplikasi Flutter untuk menangani autentikasi berbasis cookie dengan Django. 
+Fungsi utama dari CookieRequest adalah untuk mengelola, menyimpan, meminta dan mengirim cookie untuk otentikasi, pengaturan sesi, dan menyimpan preferensi pengguna. CookieRequest juga mengirim permintaan HTTP (GET/POST) dengan cookie untuk memastikan pengguna tetap terautentikasi.
+
+Instance Cookie Request perlu dibagikan ke semua komponen aplikasi melalui Provider agar semua widget dalam tree aplikasi dapat mengakses informasi login dan sesi pengguna dengan mudah tanpa harus membuat ulang object CookieRequest di setiap tempat (mempertahankan sesi pengguna saat penggua berpindah antar komponen atau halaman) serta memastikan cookie yang digunakan konsisten dan mempermudah pengelolaan cookie dengan terpusat. 
+
+4. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+Mekanisme Pengiriman data: 
+- Input data di Flutter
+  Pengguna mengisi form yang disediakan di aplikasi Flutter yang dimana input data ini dikumpulkan melalui widget seperti TextField. 
+- Pengiriman Data ke Django
+  Data yang telah diinputkan akan dikirim ke API Django melalui metode POST menggunkan CookieRequest atau http.
+- Pengelolaan data di django
+  Djago menerima data yang telah dikirimlakn kemudian memprosesnya sesuai logika backend, seperti menyimpannya ke database atau memberikan respons tertentu. 
+- Pengambilan Data di django
+  Flutter meminta data dari Django menggunakan metode GET dan django mengembalikan data dalam format JSON.
+- Menampilkan data
+  data yang telah diubah ke model ditampilkan di palikasi Fultter menggunakan eidget seperti ListView atau FutureBuilder.
+ 
+5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+Jawab: 
+1) Login
+    - Flutter mengirimkan username dan password ke endpoint Django menggunakan CookieRequest.login().
+    - Django memverifikasi kredensial, membuat sesi pengguna, dan mnegirimkan cookie autentikasi.
+    - Cookie disimpan oleh CookieRequest untuk digunakan dalam permintaan selanjutnya. 
+2) Register
+    - Flutter mengirimkan data pengguna seperti username, password dan data lainnya ke endpoint Django menggunakan CookieRequest.register().
+    - Django memvalidasi data (misalnya, memastikan password cocok), membuat akun baru, dan mengembalikan respons. 
+3) Logout
+    - Flutter memanggil endpoint logout Django menggunakan CookieRequest.logout().
+    - Django menghapus sesi pengguna dan mengembalikan respons yang mnegindikasikan bahwa logout berhasil. 
+4) Menu tampil
+    Setelah login berhasil, menu utama ditampilkan menggunakan status login yang disimpan di CookieRequest.
+
+6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+1. Model:
+Membuat model data sesuai struktur JSON yang diambil dari Django (menggunakan Quicktype atau manual).
+2. Integrasi HTTP:
+Menambahkan library http di Flutter.
+Membuat fungsi untuk mengirim dan mengambil data menggunakan metode GET dan POST.
+3. State Management dengan Provider:
+Menambahkan CookieRequest ke Provider untuk berbagi state autentikasi.
+Mengonfigurasi Provider di root widget Flutter.
+Login:
+4. Membuat form login.
+Mengirim data ke Django dan memproses respons untuk menentukan status login.
+Register:
+5. Membuat form register.
+Mengirim data ke Django untuk membuat akun baru.
+6. Logout:
+Menambahkan logika untuk menghapus sesi dengan Django.
+Menyediakan menu logout di Flutter.
+7. Fetch Data:
+Membuat fungsi untuk mengambil data dari API Django.
+Menampilkan data di Flutter menggunakan FutureBuilder dan widget lainnya.
+8. Testing:
+Menguji setiap fungsi (login, register, fetch data, logout) pada emulator dan browser.
